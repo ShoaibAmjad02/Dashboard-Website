@@ -1,0 +1,162 @@
+/* ============================
+   Responsive GraphicFamily-style CSS
+   Mobile-first, pure CSS
+   ============================ */
+
+/* ---- Root variables ---- */
+:root{
+  --bg: #f6f8fa;
+  --panel: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #06b6d4;
+  --accent-2: #7c3aed;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --radius: 12px;
+  --card-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  --gap: 18px;
+  --max-width: 1300px;
+  --transition: 180ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* ---- Reset / base ---- */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--text);-webkit-font-smoothing:antialiased}
+body{background:linear-gradient(180deg,#fbfdff,var(--bg));padding:20px}
+
+/* ---- Page container ---- */
+.page{max-width:var(--max-width);margin:0 auto;padding:12px;display:block;gap:var(--gap)}
+
+/* ---- Panels ---- */
+.panel{background:var(--panel);border-radius:calc(var(--radius) + 4px);padding:18px;box-shadow:var(--card-shadow);margin-bottom:18px}
+.hidden{display:none}
+
+/* ---- Typography ---- */
+.brand{font-size:20px;font-weight:700;margin:4px 0}
+.h2{font-size:18px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+
+/* ---- Forms (login + upload) ---- */
+.form, .upload-form{display:grid;gap:12px}
+input[type="text"], input[type="password"], textarea, select {
+  width:100%;padding:12px;border-radius:10px;border:1px solid #e6edf3;background:#fff;font-size:14px;color:var(--text);
+}
+textarea{resize:vertical;min-height:86px}
+label.file-btn{display:inline-block;padding:10px 12px;border-radius:10px;background:#fbfdff;border:1px dashed #e6edf3;color:var(--muted);cursor:pointer}
+label.file-btn input{display:none}
+
+/* ---- Buttons ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;color:white;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 20px rgba(6,118,189,0.08);
+  transition:transform var(--transition),box-shadow var(--transition);
+}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid #eef2f6;box-shadow:none}
+.btn.danger{background:var(--danger);box-shadow:none}
+.btn:active{transform:translateY(1px)}
+button, a.button-like{cursor:pointer;text-decoration:none}
+
+/* ---- App header ---- */
+.app-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.app-header .right {display:flex;gap:8px;align-items:center}
+
+/* ---- Cards grid (responsive columns) ---- */
+/* Mobile-first: 1 column default */
+.cards-wrap{
+  display:grid;
+  gap:18px;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+/* Tablet */
+@media (min-width: 600px){
+  .cards-wrap{grid-template-columns: repeat(2, minmax(0, 1fr));}
+}
+
+/* Laptop */
+@media (min-width: 900px){
+  .cards-wrap{grid-template-columns: repeat(3, minmax(0, 1fr));}
+}
+
+/* Large desktop */
+@media (min-width: 1300px){
+  .cards-wrap{grid-template-columns: repeat(4, minmax(0, 1fr));}
+}
+
+/* Ultra-wide */
+@media (min-width: 1700px){
+  .cards-wrap{grid-template-columns: repeat(5, minmax(0, 1fr));}
+}
+
+/* ---- Card style (GraphicFamily-like) ---- */
+.card{
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-radius: 12px;
+  overflow: hidden;
+  display:flex;
+  flex-direction:column;
+  box-shadow: var(--card-shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+  min-height: 260px;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 28px 48px rgba(2,6,23,0.14);}
+
+/* media area */
+.card-media{height:150px;background:#f6f8fa;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-media img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* card content */
+.card-body{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card-title{font-size:15px;font-weight:700;margin:0;color:var(--text);line-height:1.2}
+.card-desc{font-size:13px;color:var(--muted);margin:0;flex:1;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;text-overflow:ellipsis}
+/* optional small tag row */
+.card-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+
+/* card footer with actions */
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-top:1px solid #f1f5f9}
+.actions{display:flex;gap:8px;align-items:center}
+.link-btn{display:inline-block;padding:8px 12px;border-radius:10px;background:#fff;border:1px solid #eef2f6;color:var(--text);text-decoration:none;font-weight:700}
+.del-btn{padding:8px 12px;border-radius:10px;background:var(--danger);color:#fff;border:0;font-weight:700}
+
+/* ---- Badges / labels (e.g., FREE) ---- */
+.badge{display:inline-block;padding:6px 8px;border-radius:999px;font-size:12px;background:#0ea5e933;color:var(--accent);font-weight:700}
+
+/* ---- Empty state ---- */
+.empty{padding:30px;border-radius:10px;border:1px dashed #e6edf3;background:#fff;text-align:center;color:var(--muted)}
+
+/* ---- Login panel centered ---- */
+.login-panel{max-width:420px;margin:36px auto;text-align:center}
+.login-panel .brand{font-size:22px}
+.login-panel .muted{margin-top:6px}
+
+/* ---- Upload form layout ---- */
+.upload-form .row{display:flex;gap:12px}
+@media (max-width:560px){
+  .upload-form .row{flex-direction:column}
+}
+
+/* ---- Utilities ---- */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.grid-2{grid-template-columns:1fr}}
+.center{text-align:center}
+.small{font-size:13px;color:var(--muted)}
+.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #eef2f6}
+
+/* ---- accessibility: reduce motion ---- */
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+
+/* ---- Touch + focus styles ---- */
+input:focus, textarea:focus, .file-btn:focus, button:focus, a:focus{
+  outline:3px solid rgba(6,165,229,0.12);
+  outline-offset:2px;
+}
+
+/* ---- small-screen adjustments ---- */
+@media (max-width:420px){
+  body{padding:12px}
+  .card-media{height:130px}
+  .card{min-height:220px}
+  .btn{padding:10px}
+}
