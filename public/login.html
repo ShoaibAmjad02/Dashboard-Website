@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#ffecd2,#fcb69f);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    #card {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      width: 320px;
+      transition: transform 0.4s ease;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      background: #fcb69f;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #fa9f7f;
+    }
+    p {
+      text-align: center;
+      margin-top: 10px;
+    }
+    a {
+      color: #fcb69f;
+      text-decoration: none;
+    }
+    #msg {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="card">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="usernameOrEmail" placeholder="Username or Email">
+      <input type="password" id="password" placeholder="Password">
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    <p id="msg"></p>
+  </div>
+
+  <script>
+    // ✅ Redirect to dashboard if already logged in
+    window.onload = () => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        window.location.href = "dashboard.html";
+      }
+    };
+
+    const card = document.getElementById("card");
+    const msg = document.getElementById("msg");
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const input = document.getElementById("usernameOrEmail").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!input || !password) {
+        msg.textContent = "Please fill all fields!";
+        card.style.transform = "scale(1.05)";
+        setTimeout(() => card.style.transform = "scale(1)", 150);
+        return;
+      }
+
+      try {
+        const res = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: input, email: input, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          msg.style.color = "green";
+          msg.textContent = "Login successful!";
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+          card.style.transform = "scale(1.1)";
+          setTimeout(() => window.location.href = "dashboard.html", 1000);
+        } else {
+          msg.style.color = "red";
+          msg.textContent = data.error;
+          card.style.transform = "rotate(2deg)";
+          setTimeout(() => card.style.transform = "rotate(0deg)", 150);
+        }
+      } catch (err) {
+        msg.style.color = "red";
+        msg.textContent = "Server error! Try again.";
+      }
+    });
+  </script>
+</body>
+</html>

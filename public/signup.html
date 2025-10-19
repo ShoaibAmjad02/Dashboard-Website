@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+</head>
+<body style="font-family:Arial, sans-serif; background:linear-gradient(135deg,#89f7fe,#66a6ff); height:100vh; display:flex; justify-content:center; align-items:center;">
+  <div id="box" style="background:white; padding:40px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.2); width:320px; transition:transform 0.4s ease;">
+    <h2 style="text-align:center; color:#333;">Sign Up</h2>
+    <form id="signupForm" style="display:flex; flex-direction:column; gap:12px;">
+      <input type="text" id="username" placeholder="Username" style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+      <input type="email" id="email" placeholder="Email" style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+      <input type="password" id="password" placeholder="Password" style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+      <button type="submit" style="background:#66a6ff; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-size:16px; transition:background 0.3s;">Sign Up</button>
+    </form>
+    <p style="text-align:center; margin-top:10px;">Already have an account? <a href="login.html" style="color:#66a6ff;">Login</a></p>
+    <p id="msg" style="text-align:center; color:red; margin-top:10px;"></p>
+  </div>
+
+  <script>
+    const box = document.getElementById("box");
+    const msg = document.getElementById("msg");
+
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+      if (!username || !email || !password || !confirmPassword) {
+        msg.textContent = "All fields are required!";
+        box.style.transform = "scale(1.05)";
+        setTimeout(() => (box.style.transform = "scale(1)"), 150);
+        return;
+      }
+
+      const res = await fetch("http://localhost:3000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password, confirmPassword })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        msg.style.color = "green";
+        msg.textContent = data.message;
+        box.style.transform = "scale(1.1)";
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1200);
+      } else {
+        msg.style.color = "red";
+        msg.textContent = data.error;
+        box.style.transform = "rotate(2deg)";
+        setTimeout(() => (box.style.transform = "rotate(0deg)"), 150);
+      }
+    });
+  </script>
+</body>
+</html>

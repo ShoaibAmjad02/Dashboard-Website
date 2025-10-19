@@ -1,36 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Public Downloads</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<meta charset="UTF-8">
+<title>Public Downloads</title>
 <style>
-    body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-}
+  body { font-family: Arial, sans-serif; background-color: #f5f6fa; margin: 0; padding: 20px; text-align: center; }
+  h1 { font-size: 2rem; color: #2f3640; }
+  p { font-size: 1.1rem; color: #555; max-width: 700px; margin: 10px auto 30px; }
 
-h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #2f3640;
-}
-
-/* Grid layout */
-.grid {
+  .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    justify-content: start; /* so last row can leave space */
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
-}
+  }
 
-/* Card styling */
-.card {
+  .card {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
@@ -38,93 +24,45 @@ h2 {
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    aspect-ratio: 1 / 1; /* Keeps cards perfectly square */
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-.card img {
-    width: 100%;
-    height: 60%;
-    object-fit: cover;
-}
-
-.card h3 {
-    font-size: 1.2rem;
-    margin: 10px;
-    color: #2f3640;
-}
-
-.card p {
-    font-size: 0.95rem;
-    color: #555;
-    margin: 0 10px 10px 10px;
-    flex-grow: 1;
-}
-
-.card a {
-    display: block;
-    margin: 10px;
-    padding: 10px;
-    background: #0097e6;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    transition: background 0.2s ease;
-}
-
-.card a:hover {
-    background: #007bb5;
-}
-
-/* 📱 Responsive Breakpoints */
-@media (max-width: 600px) {
-    .grid {
-        grid-template-columns: 1fr; /* Only 1 card per row on small screens */
-    }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-    }
-}
-
+  }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+  .card img { width: 100%; height: 180px; object-fit: cover; }
+  .card h3 { margin: 10px; color: #2f3640; }
+  .card p { font-size: 0.95rem; color: #555; margin: 0 10px 10px; flex-grow: 1; }
+  .card a {
+    display: block; margin: 10px; padding: 10px;
+    background: #0097e6; color: white; text-decoration: none;
+    border-radius: 8px; font-weight: bold;
+  }
+  .card a:hover { background: #007bb5; }
 </style>
+</head>
 <body>
-    <h1>Public Downloads</h1>
-<p style="font-size: 22px;">Welcome! Here you can explore a collection of free design resources. 
-   Browse through the cards below to preview each design and download 
-   the source files instantly.</p>
+  <h1>Public Downloads</h1>
+  <p>Explore free design uploads shared by creators. Preview and download any source file instantly.</p>
 
-<h2>Available Designs</h2>
-    <div id="cards" class="grid"></div>
+  <div id="cards" class="grid"></div>
 
-    <script>
-        async function loadItems() {
-            const res = await fetch("/items");
-            const items = await res.json();
-            const container = document.getElementById("cards");
-            container.innerHTML = "";
+  <script>
+    async function loadItems() {
+      const res = await fetch("/items");
+      const items = await res.json();
+      const container = document.getElementById("cards");
+      container.innerHTML = "";
 
-            items.forEach(item => {
-                const card = document.createElement("div");
-                card.className = "card";
-                card.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}">
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
-                    <a href="${item.source}" download>Download Source</a>
-                `;
-                container.appendChild(card);
-            });
-        }
-        loadItems();
-    </script>
+      items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.title}">
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+          ${item.source ? `<a href="${item.source}" download>Download Source</a>` : ""}
+        `;
+        container.appendChild(card);
+      });
+    }
+    loadItems();
+  </script>
 </body>
 </html>
